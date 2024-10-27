@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import MessengerContainer from "./components/MessengerContainer"
+import { deliverMessage } from "./actions/actions"
+import { IMessage } from "./types/types"
+
 import './App.css';
 
 function App() {
+  const [messages, setMessages] = useState<IMessage[]>([
+    { text: "Hello!", sending: false, key: 1 }
+  ])
+
+  async function sendMessage(formData: FormData) {
+    const sentMessage = await deliverMessage(formData.get("message") as string); 
+    if (sentMessage) {
+      setMessages(messages => [...messages, { text: sentMessage, sending: true }])
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>useOptimistic Example</h1>
+      <MessengerContainer messages={messages} sendMessage={sendMessage} />
     </div>
   );
 }
