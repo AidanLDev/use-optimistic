@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MessengerContainer from "./components/MessengerContainer"
 import { deliverMessage } from "./actions/actions"
 import { IMessage } from "./types/types"
@@ -11,9 +11,9 @@ function App() {
   ])
 
   async function sendMessage(formData: FormData) {
-    const sentMessage = await deliverMessage(formData.get("message") as string); 
+    const sentMessage = await deliverMessage(formData.get("message") as string);
     if (sentMessage) {
-      setMessages(messages => [...messages, { text: sentMessage, sending: true }])
+      setMessages(messages => [...messages, { text: sentMessage, sending: false, sent: true }])
     }
   }
   return (
